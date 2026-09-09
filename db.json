@@ -1,0 +1,64 @@
+{
+    "tables":[
+        {
+            "id":"1",
+            "name":"por hacer"
+        },
+        {
+            "id":"2",
+            "name":"en proceso"
+        },
+        {
+            "id":"3",
+            "name":"finalizado"
+        }
+    ],
+
+  "tasks": [
+    {
+      "id": "101",
+      "title": "Diseñar maqueta en Figma",
+      "description": "Crear los wireframes y prototipos interactivos del tablero.",
+      "priority": "Alta",
+      "dueDate": "2026-09-15",
+      "statusId": "1"
+    },
+    {
+      "id": "102",
+      "title": "Configurar json-server",
+      "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
+      "priority": "Media",
+      "dueDate": "2026-09-10",
+      "statusId": "2"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1001",
+      "taskId": "1",
+      "authorId": "10001",
+      "text": "Recuerda incluir los estados de hover en los botones del modal.",
+      "createdAt": "2026-09-06T10:30:00Z"
+    },
+    {
+      "id": "1002",
+      "taskId": "1",
+      "authorId": "10002",
+      "text": "Ya subí la paleta de colores al canal de Figma.",
+      "createdAt": "2026-09-06T11:15:00Z"
+    }
+  ],
+  "users":[
+    {
+        "id":"10001",
+        "name":"juan",
+        "photo":""
+    },
+        {
+        "id":"10002",
+        "name":"pepe",
+        "photo":""
+    }
+  ]
+  
+}

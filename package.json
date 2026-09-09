@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "sortablejs": "^1.15.7"
+    "axios": "1.20.0",
+    "jsonserver": "0.1.6",
+    "sortablejs": "1.15.7"
   }
 }
