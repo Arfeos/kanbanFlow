@@ -1,19 +1,18 @@
 {
-    "tables":[
-        {
-            "id":"1",
-            "name":"por hacer"
-        },
-        {
-            "id":"2",
-            "name":"en proceso"
-        },
-        {
-            "id":"3",
-            "name":"finalizado"
-        }
-    ],
-
+  "tables": [
+    {
+      "id": "1",
+      "name": "por hacer"
+    },
+    {
+      "id": "2",
+      "name": "en proceso"
+    },
+    {
+      "id": "3",
+      "name": "finalizado"
+    }
+  ],
   "tasks": [
     {
       "id": "101",
@@ -21,11 +20,19 @@
       "description": "Crear los wireframes y prototipos interactivos del tablero.",
       "priority": "Alta",
       "dueDate": "2026-09-15",
-      "statusId": "1"
+      "statusId": "2"
     },
     {
       "id": "102",
       "title": "Configurar json-server",
+      "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
+      "priority": "Media",
+      "dueDate": "2026-09-10",
+      "statusId": "3"
+    },
+    {
+      "id": "103",
+      "title": "Configurar .env",
       "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "priority": "Media",
       "dueDate": "2026-09-10",
@@ -48,17 +55,17 @@
       "createdAt": "2026-09-06T11:15:00Z"
     }
   ],
-  "users":[
+  "users": [
     {
-        "id":"10001",
-        "name":"juan",
-        "photo":""
+      "id": "10001",
+      "name": "juan",
+      "photo": ""
     },
-        {
-        "id":"10002",
-        "name":"pepe",
-        "photo":""
+    {
+      "id": "10002",
+      "name": "pepe",
+      "photo": ""
     }
-  ]
-  
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

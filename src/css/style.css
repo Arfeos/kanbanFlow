@@ -488,7 +488,7 @@ header {
             border-radius: 50%;
           }
 
-          &.high {
+          &.alta {
             background-color: #fee2e2;
             color: #be123c;
 
@@ -497,7 +497,7 @@ header {
             }
           }
 
-          &.medium {
+          &.media {
             background-color: #dff3ff;
             color: #087ea4;
 
@@ -506,7 +506,7 @@ header {
             }
           }
 
-          &.low {
+          &.baja {
             background-color: #eef0ff;
             color: #64748b;
 
@@ -650,14 +650,6 @@ header {
       font-weight: 500;
 
       color: #334155;
-    }
-
-    .add-column-example {
-      margin-top: 6px;
-
-      font-size: 10px;
-
-      color: #94a3b8;
     }
   }
 }
