@@ -1,10 +1,16 @@
 import {
   getAllTables,
   getAllTask,
+  getAllComments,
+  getAllUsers,
   updateTaskStatus,
   createTask,
   createTable,
-  updateTask
+  updateTask,
+  createComment,
+  deleteTable,
+  deleteCommentsByTask,
+  deleteTask,
 } from "./api.js";
 
 import Sortable from "sortablejs";
@@ -19,8 +25,10 @@ const taskModal = document.getElementById("taskModal");
 const closeTableModal = document.getElementById("closeTableModal");
 const createTableButton = document.getElementById("createTable");
 const closeTaskModal = document.getElementById("closeTaskModal");
-const createTaskBtn =document.getElementById("createTaskBtn");
-  const saveButton = document.getElementById("saveData");
+const createTaskBtn = document.getElementById("createTaskBtn");
+const saveButton = document.getElementById("saveData");
+const publishCommentButton = document.getElementById("publishComment");
+const deleteTaskButton = document.getElementById("deleteTask");
 async function loadBoard() {
   tables = await getAllTables();
 
@@ -98,6 +106,40 @@ function renderTables(tables) {
     addTaskButton.addEventListener("click", () => {
       openTaskModal(null, table.id);
     });
+    const deleteTableButton =
+  tableElement.querySelector(".delete-table-button");
+  deleteTableButton.addEventListener("click", async () => {
+
+  const confirmDelete = confirm(
+    `¿Seguro que quieres eliminar la tabla "${table.name}"?`
+  );
+
+  if (!confirmDelete) {
+    return;
+  }
+
+  // Obtener todas las tareas
+  const allTasks = await getAllTask();
+
+  // Obtener todas las tareas pertenecientes a esta tabla
+  const tableTasks = allTasks.filter(
+    (task) => String(task.statusId) === String(table.id)
+  );
+
+  // Eliminar cada tarea y sus comentarios
+  for (const task of tableTasks) {
+
+    await deleteCommentsByTask(task.id);
+
+    await deleteTask(task.id);
+  }
+
+  // Finalmente eliminar la tabla
+  await deleteTable(table.id);
+
+  // Recargar tablero
+  await loadBoard();
+});
   });
 
   const addColumn = document.createElement("section");
@@ -307,12 +349,13 @@ function loadStatusOptions() {
     statusInput.appendChild(option);
   });
 }
-createTaskBtn.addEventListener("click",()=>{
+createTaskBtn.addEventListener("click", () => {
   openTaskModal();
-})
-function openTaskModal(task = null, statusId = null) {
+});
+async function openTaskModal(task = null, statusId = null) {
   const isEditing = task !== null;
   console.log("Tarea seleccionada:", task);
+
   const titleInput = document.getElementById("modal-task-title");
   const priorityInput = document.getElementById("modal-priority");
   const statusInput = document.getElementById("modal-status");
@@ -320,7 +363,8 @@ function openTaskModal(task = null, statusId = null) {
   const descriptionInput = document.getElementById("modal-description");
 
   const deleteButton = document.getElementById("deleteTask");
-
+  const commentsField = document.getElementById("comments-field");
+  const commentsSection = document.getElementById("comments-section");
 
   loadStatusOptions();
   if (!isEditing) {
@@ -330,9 +374,14 @@ function openTaskModal(task = null, statusId = null) {
       statusInput.selectedIndex = 0;
     }
     deleteButton.style.display = "none";
+    commentsSection.style.display = "none";
+    commentsField.style.display = "none";
     saveButton.textContent = "Crear Tarea";
     taskModal.showModal();
   } else {
+    deleteButton.style.display = "flex";
+    commentsSection.style.display = "block";
+    commentsField.style.display = "block";
     titleInput.value = task.title || "";
 
     priorityInput.value = task.priority || "Media";
@@ -347,6 +396,7 @@ function openTaskModal(task = null, statusId = null) {
 
     // Cambiar texto
     saveButton.textContent = "Guardar Cambios";
+    await loadComments(task.id);
   }
 
   taskModal.dataset.taskId = isEditing ? task.id : "";
@@ -354,7 +404,6 @@ function openTaskModal(task = null, statusId = null) {
   taskModal.showModal();
 }
 saveButton.addEventListener("click", async () => {
-
   const taskId = taskModal.dataset.taskId;
 
   const title = document.getElementById("modal-task-title").value;
@@ -362,35 +411,140 @@ saveButton.addEventListener("click", async () => {
   const statusId = document.getElementById("modal-status").value;
   const dueDate = document.getElementById("modal-date").value;
   const description = document.getElementById("modal-description").value;
-    if (!title || !priority || !statusId || !dueDate) {
+  if (!title || !priority || !statusId || !dueDate) {
     alert("Debes rellenar todos los campos.");
     return;
   }
 
-    let newTask={
-      title: title,
-      priority: priority,
-      statusId: statusId,
-      dueDate: dueDate,
-      description: description,
-    }
+  let newTask = {
+    title: title,
+    priority: priority,
+    statusId: statusId,
+    dueDate: dueDate,
+    description: description,
+  };
 
   if (taskId) {
-
     console.log("Editando tarea:", taskId);
-   console.log(newTask);
-  await updateTask(newTask, taskId)
+    console.log(newTask);
+    await updateTask(newTask, taskId);
   } else {
     console.log("creando tarea:", newTask);
-    await createTask(newTask)
-
+    await createTask(newTask);
   }
-    taskModal.close();
-    resetModal(taskModal);
-    loadBoard();
+  taskModal.close();
+  resetModal(taskModal);
+  loadBoard();
+});
+publishCommentButton.addEventListener("click", async () => {
+  const commentInput = document.getElementById("new-comment");
+
+  const text = commentInput.value.trim();
+
+  const taskId = taskModal.dataset.taskId;
+
+  // Comprobar que haya texto
+  if (!text) {
+    alert("Escribe un comentario antes de publicarlo.");
+    return;
+  }
+
+  // Comprobar que estamos editando una tarea
+  if (!taskId) {
+    return;
+  }
+
+  const newComment = {
+    taskId: String(taskId),
+    authorId: "10001",
+    text: text,
+    createdAt: new Date().toISOString(),
+  };
+  console.log("Creando comentario:", newComment);
+  await createComment(newComment);
+  commentInput.value = "";
+  await loadComments(taskId);
+});
+deleteTaskButton.addEventListener("click", async () => {
+  const taskId = taskModal.dataset.taskId;
+  console.log(taskId)
+  if (!taskId) {
+    return;
+  }
+  const confirmDelete = confirm("¿Seguro que quieres eliminar esta tarea?");
+  if (!confirmDelete) {
+    return;
+  }
+  await deleteCommentsByTask(taskId);
+  await deleteTask(taskId);
+  taskModal.close();
+  resetModal(taskModal);
+  await loadBoard();
 });
 // ==============================
 // INICIALIZAR
 // ==============================
 
 loadBoard();
+
+// ==============================
+// LOADERS
+// ==============================
+
+async function loadComments(taskId) {
+  const commentsField = document.getElementById("comments-field");
+  const commentsCount = document.querySelector(".comments-count");
+
+  commentsField.innerHTML = "";
+
+  const comments = await getAllComments();
+  const users = await getAllUsers();
+
+  const taskComments = comments.filter(
+    (comment) => String(comment.taskId) === String(taskId),
+  );
+
+  commentsCount.textContent = taskComments.length;
+
+  taskComments.forEach((comment) => {
+    const user = users.find(
+      (user) => String(user.id) === String(comment.authorId),
+    );
+
+    const commentElement = document.createElement("article");
+
+    commentElement.classList.add("comment");
+
+    commentElement.innerHTML = `
+      <div class="comment-avatar">
+        ${user ? user.name.substring(0, 2).toUpperCase() : "??"}
+      </div>
+
+      <div class="comment-content">
+
+        <div class="comment-header">
+          <strong>${user ? user.name : "Usuario desconocido"}</strong>
+
+          <span>
+            ${formatDate(comment.createdAt)}
+          </span>
+        </div>
+
+        <p>
+          ${comment.text}
+        </p>
+      </div>
+    `;
+
+    commentsField.appendChild(commentElement);
+  });
+}
+function formatDate(date) {
+  return new Date(date).toLocaleString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
