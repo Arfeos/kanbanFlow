@@ -28,7 +28,7 @@
       "description": "Crear los wireframes y prototipos interactivos del tablero.",
       "priority": "Alta",
       "dueDate": "2026-09-15",
-      "statusId": "vhqmNouD24M"
+      "statusId": "yT-unpth-OQ"
     },
     {
       "id": "102",
@@ -36,7 +36,7 @@
       "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "priority": "Media",
       "dueDate": "2026-09-10",
-      "statusId": "lLJd5F1jY08"
+      "statusId": "95D3YbtxmiE"
     },
     {
       "id": "103",
@@ -44,7 +44,7 @@
       "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "priority": "Media",
       "dueDate": "2026-09-10",
-      "statusId": "95D3YbtxmiE"
+      "statusId": "lLJd5F1jY08"
     }
   ],
   "comments": [
