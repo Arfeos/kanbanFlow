@@ -80,126 +80,11 @@ header {
     width: 40px;
   }
 
-  .stats {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    padding: 4px 9px;
-
-    border-radius: 20px;
-
-    background-color: #f1f2f8;
-    color: #4b4b5a;
-
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-
-    .stat {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .separator {
-      color: #a5a5b0;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-
-      border-radius: 50%;
-
-      display: inline-block;
-
-      &.purple {
-        background-color: #5146d8;
-      }
-
-      &.blue {
-        background-color: #4ca6e8;
-      }
-    }
-  }
+ 
 
 }
 
-/* =========================
-   SURVEY
-========================= */
 
-.survey {
-  display: grid;
-
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-
-  gap: 0.75rem;
-
-  padding: 12px;
-
-  overflow-x: auto;
-
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  .survey-card {
-    background-color: #fefeff;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    min-height: 72px;
-
-    padding: 12px;
-
-    border-radius: 20px;
-
-    .survey-data {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-
-      div:first-child {
-        text-transform: uppercase;
-
-        font-size: 11px;
-        font-weight: 600;
-
-        color: #64748b;
-      }
-
-      .survey-number {
-        font-size: 2rem;
-        font-weight: 600;
-        color: #0f172a;
-      }
-    }
-
-    .survey-icon {
-      padding: 8px;
-
-      background-color: #e5eeff;
-
-      border-radius: 12px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      color: #4f46d9;
-
-      .material-symbols-outlined {
-        font-size: 22px;
-      }
-    }
-  }
-}
 
 /* =========================
    FILTERS
@@ -340,11 +225,6 @@ header {
 
   overflow-x: auto;
 
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
   .table,.add-column {
     width: 280px;
     min-width: 280px;
@@ -1238,10 +1118,21 @@ dialog {
 }
 
 
+@media (max-width: 1024px){
+    .table-container{
+    
+  scrollbar-width: none;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  }
+}
 
 @media (max-width: 600px) {
-
+  .filters{
+    flex-direction: column;
+  }
   #taskModal {
     width: 95%;
     max-height: 94vh;
@@ -1278,4 +1169,5 @@ dialog {
       }
     }
   }
+
 }
