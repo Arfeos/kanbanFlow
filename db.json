@@ -1,16 +1,24 @@
 {
   "tables": [
     {
-      "id": "1",
-      "name": "por hacer"
+      "name": "Por hacer",
+      "id": "NUOSAqwBgI8"
     },
     {
-      "id": "2",
-      "name": "en proceso"
+      "name": "En desarrollo",
+      "id": "95D3YbtxmiE"
     },
     {
-      "id": "3",
-      "name": "finalizado"
+      "name": "Finalizado",
+      "id": "lLJd5F1jY08"
+    },
+    {
+      "name": "prueba",
+      "id": "vhqmNouD24M"
+    },
+    {
+      "name": "asdasd",
+      "id": "yT-unpth-OQ"
     }
   ],
   "tasks": [
@@ -20,7 +28,7 @@
       "description": "Crear los wireframes y prototipos interactivos del tablero.",
       "priority": "Alta",
       "dueDate": "2026-09-15",
-      "statusId": "2"
+      "statusId": "vhqmNouD24M"
     },
     {
       "id": "102",
@@ -28,7 +36,7 @@
       "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "priority": "Media",
       "dueDate": "2026-09-10",
-      "statusId": "3"
+      "statusId": "lLJd5F1jY08"
     },
     {
       "id": "103",
@@ -36,7 +44,7 @@
       "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "priority": "Media",
       "dueDate": "2026-09-10",
-      "statusId": "2"
+      "statusId": "95D3YbtxmiE"
     }
   ],
   "comments": [
@@ -58,13 +66,11 @@
   "users": [
     {
       "id": "10001",
-      "name": "juan",
-      "photo": ""
+      "name": "juan"
     },
     {
       "id": "10002",
-      "name": "pepe",
-      "photo": ""
+      "name": "pepe"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

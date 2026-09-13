@@ -1,229 +1,480 @@
-import { getAllTables, getAllTask } from './api.js';
-import Sortable from 'sortablejs';
+import {
+  getAllTables,
+  getAllTask,
+  updateTaskStatus,
+  createTable,
+} from "./api.js";
+
+import Sortable from "sortablejs";
+
+
+let tasks = [];
+let tables = []
+
+// MODALES
+const tableModal = document.getElementById("tableModal");
+const taskModal = document.getElementById("taskModal");
+
+const closeTableModal = document.getElementById("closeTableModal");
+const createTableButton = document.getElementById("createTable");
+const closeTaskModal= document.getElementById("closeTaskModal")
 
 
 async function loadBoard() {
 
-    const tables = await getAllTables();
-    const tasks = await getAllTask();
+  tables = await getAllTables();
 
-    console.log('Tablas:', tables);
-    console.log('Tareas:', tasks);
+  tasks = await getAllTask();
 
-    renderTables(tables);
-    renderTasks(tasks);
+  renderTables(tables);
 
-    initSortable();
+  renderTasks(tasks);
+
+  initSortable();
 }
-
 
 function renderTables(tables) {
 
-    const tableContainer = document.querySelector('.table-container');
+  const tableContainer = document.querySelector(".table-container");
 
-    tableContainer.innerHTML = '';
+  tableContainer.innerHTML = "";
 
-    tables.forEach(table => {
 
-        const tableElement = document.createElement('section');
+  tables.forEach((table) => {
 
-        tableElement.classList.add('table');
+    const tableElement = document.createElement("section");
 
-        tableElement.dataset.statusId = table.id;
+    tableElement.classList.add("table");
 
-        tableElement.innerHTML = `
-            <section class="table-header">
+    tableElement.dataset.statusId = table.id;
 
-                <div class="table-header-details">
-                    <span class="table-title">
-                        ${table.name}
-                    </span>
 
-                    <span class="task-count">
-                        0
-                    </span>
+    tableElement.innerHTML = `
+      <section class="table-header">
 
-                </div>
+        <div class="table-header-details">
 
-                <button class="add-card-button">
+          <span class="table-title">
+            ${table.name}
+          </span>
 
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
+          <span class="task-count">
+            0
+          </span>
 
-                </button>
+        </div>
 
-            </section>
 
-            <section class="task-list"></section>
+        <button
+          type="button"
+          class="delete-table-button"
+        >
 
-            <button class="add-task-button">
+          <span class="material-symbols-outlined">
+            delete
+          </span>
 
-                <span class="material-symbols-outlined">
-                    add
-                </span>
+        </button>
 
-                Añadir tarjeta
+      </section>
 
-            </button>
-        `;
 
-        tableContainer.appendChild(tableElement);
-    });
+      <section class="task-list"></section>
+
+
+      <button
+        type="button"
+        class="add-task-button"
+      >
+
+        <span class="material-symbols-outlined">
+          add
+        </span>
+
+        Añadir tarjeta
+
+      </button>
+    `;
+
+
+    tableContainer.appendChild(tableElement);
+
+  });
+
+
+
+  const addColumn = document.createElement("section");
+
+  addColumn.classList.add("add-column");
+
+  addColumn.id = "openTableModal";
+
+
+  addColumn.innerHTML = `
+    <button
+      type="button"
+      class="add-column-button"
+    >
+
+      <span class="material-symbols-outlined">
+        view_column
+      </span>
+
+    </button>
+
+    <span class="add-column-title">
+      + Añadir Columna
+    </span>
+  `;
+
+
+  tableContainer.appendChild(addColumn);
+
+
+
+  addColumn.addEventListener("click", () => {
+
+    tableModal.showModal();
+
+  });
+
 }
+
 
 
 function renderTasks(tasks) {
 
-    tasks.forEach(task => {
+  tasks.forEach((task) => {
 
-        const table = document.querySelector(
-            `.table[data-status-id="${task.statusId}"]`
-        );
+    const table = document.querySelector(
+      `.table[data-status-id="${task.statusId}"]`
+    );
 
-        if (!table) {
-            return;
-        }
+    if (!table) {
+      return;
+    }
 
-        const taskList = table.querySelector('.task-list');
 
-        const taskElement = document.createElement('article');
+    const taskList = table.querySelector(".task-list");
 
-        taskElement.classList.add('task-card');
 
-        taskElement.dataset.taskId = task.id;
+    const taskElement = document.createElement("article");
 
-        taskElement.innerHTML = `
-            <div class="task-priority ${task.priority.toLowerCase()}">
+    taskElement.classList.add("task-card");
 
-                <span class="dot"></span>
+    taskElement.dataset.taskId = task.id;
 
-                ${task.priority}
 
-            </div>
+    taskElement.innerHTML = `
+      <div class="task-priority ${task.priority.toLowerCase()}">
 
-            <div class="task-title">
-                ${task.title}
-            </div>
+        <span class="dot"></span>
 
-            <div class="task-description">
-                ${task.description}
-            </div>
+        ${task.priority}
 
-            <div class="task-footer">
+      </div>
 
-                <div class="task-date">
 
-                    <span class="material-symbols-outlined">
-                        calendar_today
-                    </span>
+      <div class="task-title">
+        ${task.title}
+      </div>
 
-                    ${task.dueDate}
 
-                </div>
+      <div class="task-description">
+        ${task.description}
+      </div>
 
-            </div>
-        `;
 
-        taskList.appendChild(taskElement);
-    });
+      <div class="task-footer">
 
-    updateTaskCounters();
+        <div class="task-date">
+
+          <span class="material-symbols-outlined">
+            calendar_today
+          </span>
+
+          ${task.dueDate}
+
+        </div>
+
+      </div>
+    `;
+
+
+    taskList.appendChild(taskElement);
+
+  });
+
+
+  updateTaskCounters();
+
 }
-
 
 function updateTaskCounters() {
 
-    const tables = document.querySelectorAll('.table');
+  const tables = document.querySelectorAll(".table");
 
-    tables.forEach(table => {
 
-        const taskList = table.querySelector('.task-list');
+  tables.forEach((table) => {
 
-        const counter = table.querySelector('.task-count');
+    const taskList = table.querySelector(".task-list");
 
-        counter.textContent = taskList.children.length;
+    const counter = table.querySelector(".task-count");
 
-    });
+
+    counter.textContent = taskList.children.length;
+
+  });
+
 }
-
 
 function initSortable() {
 
-    const taskLists = document.querySelectorAll('.task-list');
-
-    taskLists.forEach(taskList => {
-
-        new Sortable(taskList, {
-
-            group: 'kanban',
-
-            animation: 150,
-
-            ghostClass: 'task-ghost',
-
-            chosenClass: 'task-chosen',
-
-            dragClass: 'task-drag',
-
-            onEnd: async function (event) {
-
-                const taskElement = event.item;
-
-                const taskId = taskElement.dataset.taskId;
-
-                const newTable = event.to.closest('.table');
-
-                const newStatusId = newTable.dataset.statusId;
-
-                console.log(
-                    `Tarea ${taskId} movida al estado ${newStatusId}`
-                );
-
-                await updateTaskStatus(taskId, newStatusId);
-
-                updateTaskCounters();
-            }
-        });
-    });
-}
+  const taskLists = document.querySelectorAll(".task-list");
 
 
-async function updateTaskStatus(taskId, statusId) {
+  taskLists.forEach((taskList) => {
 
-    try {
+    new Sortable(taskList, {
 
-        const response = await fetch(
-            `http://localhost:3000/tasks/${taskId}`,
-            {
-                method: 'PATCH',
+      group: "kanban",
 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+      animation: 150,
 
-                body: JSON.stringify({
-                    statusId: statusId
-                })
-            }
-        );
+      ghostClass: "task-ghost",
 
-        if (!response.ok) {
-            throw new Error('No se pudo actualizar la tarea');
-        }
+      chosenClass: "task-chosen",
+
+      dragClass: "task-drag",
+
+
+      onEnd: async function (event) {
+
+        const taskElement = event.item;
+
+        const taskId = taskElement.dataset.taskId;
+
+
+        const newTable = event.to.closest(".table");
+
+        const newStatusId = newTable.dataset.statusId;
+
 
         console.log(
-            `Tarea ${taskId} actualizada correctamente`
+          `Tarea ${taskId} movida al estado ${newStatusId}`
         );
 
-    } catch (error) {
 
-        console.error(
-            'Error actualizando la tarea:',
-            error
+        await updateTaskStatus(
+          taskId,
+          newStatusId
         );
-    }
+
+
+        updateTaskCounters();
+
+      },
+
+    });
+
+  });
+
 }
 
+
+// ==============================
+// MODAL TABLA
+// ==============================
+
+
+closeTableModal.addEventListener("click", () => {
+  resetModal(tableModal);
+
+  tableModal.close();
+
+});
+
+
+// Crear tabla
+
+createTableButton.addEventListener("click", async () => {
+
+  const tableNameInput =
+    document.getElementById("newTable");
+
+
+  const tableName =
+    tableNameInput.value.trim();
+
+
+  // Evitar crear una tabla vacía
+
+  if (!tableName) {
+    return;
+  }
+
+
+  await createTable(tableName);
+
+
+  resetModal(tableModal);
+
+
+  tableModal.close();
+
+
+  // Volver a cargar el tablero
+
+  await loadBoard();
+
+});
+
+
+
+function resetModal(modal) {
+
+  const inputs = modal.querySelectorAll(
+    "input, textarea, select"
+  );
+
+  inputs.forEach((input) => {
+
+    if (input.tagName === "SELECT") {
+
+      input.selectedIndex = 0;
+
+    } else {
+
+      input.value = "";
+
+    }
+
+  });
+
+}
+
+// ==============================
+// MODAL TAREA
+// ==============================
+
+function initTaskModal() {
+
+  const tableContainer =
+    document.querySelector(".table-container");
+
+
+  tableContainer.addEventListener("click", (event) => {
+
+    const taskCard =
+      event.target.closest(".task-card");
+
+
+    if (!taskCard) {
+      return;
+    }
+
+
+    const taskId =
+      taskCard.dataset.taskId;
+
+
+    const task =
+      tasks.find(
+        (task) =>
+          String(task.id) === String(taskId)
+      );
+
+
+    if (!task) {
+      return;
+    }
+
+
+    openTaskModal(task);
+
+  });
+
+}
+closeTaskModal.addEventListener("click",()=>{
+  resetModal(taskModal);
+  taskModal.close();
+})
+
+
+function loadStatusOptions() {
+
+  const statusInput = document.getElementById("modal-status");
+
+  statusInput.innerHTML = "";
+
+  tables.forEach((table) => {
+
+    const option = document.createElement("option");
+
+    option.value = String(table.id);
+    option.textContent = table.name;
+
+    statusInput.appendChild(option);
+
+  });
+}
+
+function openTaskModal(task= null, statusId= null) {
+ const isEditing = task !== null;
+  console.log("Tarea seleccionada:", task);
+ const titleInput = document.getElementById("modal-task-title");
+  const priorityInput = document.getElementById("modal-priority");
+  const statusInput = document.getElementById("modal-status");
+  const dateInput = document.getElementById("modal-date");
+  const descriptionInput = document.getElementById("modal-description");
+
+  const deleteButton = document.getElementById("deleteTask");
+  const saveButton = document.getElementById("saveTask");
+
+    loadStatusOptions();
+ if (!isEditing) {
+    if (statusId !== null) {
+      statusInput.value = String(statusId);
+    } else {
+      statusInput.selectedIndex = 0;
+    }
+    deleteButton.style.display = "none";
+    saveButton.textContent = "Crear Tarea";
+      taskModal.showModal();
+  }
+else{
+      titleInput.value = task.title || "";
+
+    priorityInput.value = task.priority || "Media";
+    statusInput.value = String(task.statusId);
+
+    dateInput.value = task.dueDate || "";
+
+    descriptionInput.value = task.description || "";
+
+    // Mostrar eliminar
+    deleteButton.style.display = "flex";
+
+    // Cambiar texto
+    saveButton.textContent = "Guardar Cambios";
+  }
+
+  taskModal.dataset.taskId = isEditing
+    ? task.id
+    : "";
+
+  taskModal.showModal();
+}
+
+
+
+
+
+
+// ==============================
+// INICIALIZAR
+// ==============================
+
+initTaskModal();
 
 loadBoard();

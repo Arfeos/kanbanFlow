@@ -15,7 +15,6 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-
   </head>
   <body>
     <header>
@@ -37,7 +36,7 @@
             6 en progreso
           </span>
         </div>
-        <button class="add-button">
+        <button type="button" class="primary-button">
           <span class="material-symbols-outlined"> add </span> Nueva Tarea
         </button>
       </section>
@@ -84,42 +83,164 @@
       <section class="filters">
         <div class="search-box">
           <span class="material-symbols-outlined">search</span>
-          <input type="text" placeholder="Filtrar por título o contenido..." />
+          <input id="search" type="text" placeholder="Filtrar por título" />
         </div>
         <div class="priority-filter">
           <span class="priority-label">Prioridad:</span>
 
-          <button class="priority active">Todas</button>
+          <button type="button" class="priority active">Todas</button>
 
-          <button class="priority high active">
+          <button type="button" class="priority high">
             <span class="dot"></span>
             Alta
           </button>
 
-          <button class="priority medium">
+          <button type="button" class="priority medium">
             <span class="dot"></span>
             Media
           </button>
 
-          <button class="priority low">
+          <button type="button" class="priority low">
             <span class="dot"></span>
             Baja
           </button>
         </div>
       </section>
       <section class="table-container">
-
+        <section class="add-column"></section>
       </section>
-    </main>
-<script type="importmap">
-{
-  "imports": {
-    "axios": "https://cdn.jsdelivr.net/npm/axios@1.20.0/+esm",
-    "sortablejs": "https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/+esm"
-  }
-}
-</script>
+      <dialog id="taskModal">
+        <div class="task-modal">
+          <!-- CABECERA -->
+          <div class="task-modal-header">
+            <button type="button" class="delete-task-button" id="deleteTask">
+              <span class="material-symbols-outlined"> delete </span>
 
-<script type="module" src="src/js/main.js"></script>
+              Eliminar Tarjeta
+            </button>
+
+            <span class="modal-priority" id="modal-priority-badge">
+              <span class="dot"></span>
+              <span id="modal-priority-text"></span>
+            </span>
+
+            <button type="button" class="close-task-modal" id="closeTaskModal">
+              <span class="material-symbols-outlined"> close </span>
+            </button>
+          </div>
+
+          <div class="task-modal-body">
+            <div class="modal-title-section">
+              <label for="modal-task-title"> TÍTULO DE LA TAREA </label>
+
+              <input type="text" id="modal-task-title" />
+            </div>
+            <div class="task-details">
+              <!-- PRIORIDAD -->
+              <div class="task-detail">
+                <label for="modal-priority"> PRIORIDAD </label>
+
+                <select id="modal-priority">
+                  <option value="Alta">Alta</option>
+                  <option value="Media">Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+              </div>
+
+              <!-- ESTADO -->
+              <div class="task-detail">
+                <label for="modal-status"> ESTADO </label>
+
+                <select id="modal-status">
+
+                </select>
+              </div>
+
+              <!-- FECHA -->
+              <div class="task-detail">
+                <label for="modal-date"> FECHA LÍMITE </label>
+
+                <input type="date" id="modal-date" />
+              </div>
+            </div>
+            <div class="description-section">
+              <label for="modal-description"> DESCRIPCIÓN TÉCNICA </label>
+
+              <textarea
+                id="modal-description"
+                placeholder="Añade una descripción..."
+              ></textarea>
+            </div>
+            <div class="modal-separator"></div>
+            <section class="comments-section">
+              <div class="comments-header">
+                <div class="comments-title">
+                  <span class="material-symbols-outlined"> forum </span>
+
+                  <h3>Comentarios &amp; Discusión</h3>
+
+                  <span class="comments-count"> 0 </span>
+                </div>
+              </div>
+
+              <div class="new-comment">
+                <div class="comment-avatar user">TU</div>
+
+                <textarea
+                  id="new-comment"
+                  placeholder="Escribe una actualización técnica o nota de sprint..."
+                ></textarea>
+              </div>
+
+              <div class="comment-action">
+                <button
+                  type="button"
+                  class="publish-comment"
+                  id="publishComment"
+                >
+                  <span class="material-symbols-outlined"> send </span>
+
+                  Publicar Comentario
+                </button>
+              </div>
+
+              <section class="comments-field" id="comments-field"></section>
+            </section>
+          </div>
+          <div class="task-modal-footer">
+            <button type="button" class="primary-button" id="saveTask">
+              Guardar Cambios
+            </button>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="tableModal">
+        <div class="modal-header">
+          <h2>Nueva tabla</h2>
+
+          <button type="button" id="closeTableModal">
+            <span class="material-symbols-outlined"> close </span>
+          </button>
+        </div>
+
+        <input id="newTable" type="text" placeholder="Nombre de la tabla" />
+
+        <div class="modal-footer">
+          <button type="button" class="primary-button" id="createTable">
+            Crear tabla
+          </button>
+        </div>
+      </dialog>
+    </main>
+    <script type="importmap">
+      {
+        "imports": {
+          "axios": "https://cdn.jsdelivr.net/npm/axios@1.20.0/+esm",
+          "sortablejs": "https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/+esm"
+        }
+      }
+    </script>
+
+    <script type="module" src="src/js/main.js"></script>
   </body>
 </html>
