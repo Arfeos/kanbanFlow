@@ -38,6 +38,35 @@ export async function createTable(name) {
         console.error("Error al crear tabla:", error);
     }
 }
+export async function createTask(params) {
+  try{
+    const response = await axios.post(`${API_URL}tasks`,{
+      id:0,
+      title: params.title,
+      priority: params.priority,
+      statusId: params.statusId,
+      dueDate: params.dueDate,
+      description: params.description
+    });
+    return response.data;
+  }catch(error){
+     console.error("Error creando la tarea:", error);
+  }
+}
+export async function updateTask(params,id){
+    try{
+    const response = await axios.put(`${API_URL}tasks/${id}`,{
+      title: params.title,
+      priority: params.priority,
+      statusId: params.statusId,
+      dueDate: params.dueDate,
+      description: params.description
+    });
+    return response.data;
+  }catch(error){
+     console.error("Error actualizar la tarea:", error);
+  }
+}
 // export async function DeleteTable(id) {
 //   const response= axios.get(`${API_URL}`)
   

@@ -31,12 +31,12 @@
       "statusId": "yT-unpth-OQ"
     },
     {
-      "id": "102",
       "title": "Configurar json-server",
-      "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "priority": "Media",
+      "statusId": "NUOSAqwBgI8",
       "dueDate": "2026-09-10",
-      "statusId": "95D3YbtxmiE"
+      "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
+      "id": "102"
     },
     {
       "id": "103",
