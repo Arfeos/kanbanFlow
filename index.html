@@ -127,6 +127,32 @@
                 placeholder="Añade una descripción..."
               ></textarea>
             </div>
+            <section class="subtasks-section">
+              <div class="subtasks-header">
+                <div class="subtasks-title">
+                  <span class="material-symbols-outlined">checklist</span>
+
+                  <h3>Subtareas</h3>
+
+                  <span id="subtasks-count">0</span>
+                </div>
+              </div>
+
+              <div class="new-subtask">
+                <input
+                  type="text"
+                  id="new-subtask"
+                  placeholder="Añadir subtarea..."
+                />
+
+                <button type="button" id="addSubTask">
+                  <span class="material-symbols-outlined">add</span>
+                </button>
+              </div>
+
+              <div id="subtasks-field" class="subtasks-field"></div>
+            </section>
+
             <div class="modal-separator"></div>
             <section class="comments-section" id="comments-section">
               <div class="comments-header">

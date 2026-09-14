@@ -31,12 +31,12 @@
       "id": "103"
     },
     {
-      "id": "ignTFbLd41E",
-      "title": "preuba de creacion",
+      "title": "dasdasd",
       "priority": "Alta",
       "statusId": "NUOSAqwBgI8",
-      "dueDate": "2027-12-12",
-      "description": ""
+      "dueDate": "1231-03-12",
+      "description": "adadsasd",
+      "id": "gutN4KDPCgM"
     }
   ],
   "comments": [
@@ -46,6 +46,20 @@
       "text": "sdaasdasd",
       "createdAt": "2026-09-14T09:45:16.749Z",
       "id": "OCpIvBvTzRM"
+    }
+  ],
+  "SubTask": [
+    {
+      "taskId": "gutN4KDPCgM",
+      "name": "asdasdasdas",
+      "done": true,
+      "id": "NpQwYTm1dno"
+    },
+    {
+      "taskId": "gutN4KDPCgM",
+      "name": "asdasdasd",
+      "done": false,
+      "id": "RNaymByaEZ0"
     }
   ],
   "users": [

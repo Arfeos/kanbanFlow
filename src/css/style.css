@@ -887,7 +887,199 @@ dialog {
           }
         }
       }
+      .subtasks-section {
+        margin-top: 20px;
 
+        .subtasks-header {
+          margin-bottom: 12px;
+
+          .subtasks-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .material-symbols-outlined {
+              font-size: 20px;
+            }
+
+            h3 {
+              margin: 0;
+
+              color: #344054;
+
+              font-size: 12px;
+              font-weight: 700;
+            }
+
+            #subtasks-count {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              min-width: 18px;
+              height: 18px;
+
+              padding: 0 5px;
+
+              border-radius: 20px;
+
+              background-color: #e5e9f4;
+              color: #1e293b;
+
+              font-size: 9px;
+              font-weight: 700;
+            }
+          }
+        }
+
+        .new-subtask {
+          display: flex;
+          align-items: center;
+
+          gap: 8px;
+
+          margin-bottom: 10px;
+
+          #new-subtask {
+            flex: 1;
+
+            min-width: 0;
+            height: 32px;
+
+            padding: 0 10px;
+
+            border: none;
+            border-radius: 8px;
+
+            background-color: #e4edff;
+            color: #1e293b;
+
+            font-family: Inter;
+            font-size: 10px;
+
+            outline: none;
+
+            &:focus {
+              box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
+            }
+          }
+
+          #addSubTask {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 32px;
+            height: 32px;
+
+            padding: 0;
+
+            border: none;
+            border-radius: 7px;
+
+            background-color: #5146d8;
+            color: white;
+
+            cursor: pointer;
+
+            &:hover {
+              background-color: #393bb8;
+            }
+
+            .material-symbols-outlined {
+              font-size: 18px;
+            }
+          }
+        }
+
+        .subtasks-field {
+          display: flex;
+          flex-direction: column;
+
+          gap: 6px;
+
+          .subtask {
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 8px 10px;
+
+            border: 1px solid #e2e7ef;
+            border-radius: 8px;
+
+            background-color: #f8faff;
+
+            .subtask-checkbox {
+              width: 15px;
+              height: 15px;
+
+              margin: 0;
+
+              flex-shrink: 0;
+
+              cursor: pointer;
+            }
+
+            .subtask-name {
+              flex: 1;
+
+              min-width: 0;
+
+              padding: 3px 0;
+
+              border: none;
+
+              background-color: transparent;
+              color: #1e293b;
+
+              font-family: Inter;
+              font-size: 10px;
+
+              outline: none;
+
+              &:focus {
+                border-bottom: 1px solid #5146d8;
+              }
+            }
+
+            .subtask-checkbox:checked + .subtask-name {
+              color: #5f6b7a;
+
+              text-decoration: line-through;
+            }
+
+            .delete-subtask {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              width: 27px;
+              height: 27px;
+
+              padding: 0;
+
+              border: none;
+              border-radius: 6px;
+
+              background-color: transparent;
+              color: #5f6b7a;
+
+              cursor: pointer;
+
+              &:hover {
+                background-color: #fee2e2;
+                color: #be123c;
+              }
+
+              .material-symbols-outlined {
+                font-size: 17px;
+              }
+            }
+          }
+        }
+      }
       .modal-separator {
         height: 1px;
 

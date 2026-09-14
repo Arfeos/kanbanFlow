@@ -9,14 +9,18 @@ import {
   updateTask,
   createComment,
   deleteTable,
-  deleteCommentsByTask,
   deleteTask,
+  getAllSubTasks,
+  createSubTask,
+  updateSubTask,
+  deleteSubTask,
 } from "./api.js";
 
 import Sortable from "sortablejs";
 
 let tasks = [];
 let tables = [];
+let subTasks = [];
 let activeTableId = null;
 let searchText = "";
 let selectedPriority = "Todas";
@@ -35,10 +39,12 @@ const mobileMenuButton = document.getElementById("mobileMenuButton");
 const mobileTableName = document.getElementById("mobileTableName");
 const mobileTableOptions = document.getElementById("mobileTableOptions");
 const priorityButtons = document.querySelectorAll(".priority");
-
+const addSubTaskButton = document.getElementById("addSubTask");
+const subtaskSection= document.querySelector(".subtasks-section")
 async function loadBoard() {
   tables = await getAllTables();
   tasks = await getAllTask();
+  subTasks = await getAllSubTasks();
 
   renderTables(tables);
   renderTasks(tasks);
@@ -171,26 +177,16 @@ function renderTables(tables) {
       if (!confirmDelete) {
         return;
       }
-
-      // Obtener todas las tareas
       const allTasks = await getAllTask();
-
-      // Obtener todas las tareas pertenecientes a esta tabla
       const tableTasks = allTasks.filter(
         (task) => String(task.statusId) === String(table.id),
       );
 
       // Eliminar cada tarea y sus comentarios
       for (const task of tableTasks) {
-        await deleteCommentsByTask(task.id);
-
         await deleteTask(task.id);
       }
-
-      // Finalmente eliminar la tabla
       await deleteTable(table.id);
-
-      // Recargar tablero
       await loadBoard();
     });
   });
@@ -286,18 +282,21 @@ function renderTasks(tasks) {
 
   updateTaskCounters();
 }
-function filterTasks(){
-  const filteredTasks = tasks.filter((task)=>{
-    const matchesSearch = task.title.toLowerCase().includes(searchText.toLowerCase());
-    const matchesPriority = selectedPriority === "Todas" || task.priority === selectedPriority;
+function filterTasks() {
+  const filteredTasks = tasks.filter((task) => {
+    const matchesSearch = task.title
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+    const matchesPriority =
+      selectedPriority === "Todas" || task.priority === selectedPriority;
     return matchesSearch && matchesPriority;
-  })
-   document.querySelectorAll(".task-list").forEach((taskList) => {
+  });
+  document.querySelectorAll(".task-list").forEach((taskList) => {
     taskList.innerHTML = "";
   });
 
   renderTasks(filteredTasks);
-    initSortable();
+  initSortable();
 }
 const searchInput = document.getElementById("search");
 
@@ -394,10 +393,12 @@ createTableButton.addEventListener("click", async () => {
     alert("debes asignarle un nombre");
     return;
   }
-if(tables.find((table)=>tableName.toLowerCase()===table.name.toLowerCase())){
-  alert("Ese nombre ya esta en uso");
-  return
-}
+  if (
+    tables.find((table) => tableName.toLowerCase() === table.name.toLowerCase())
+  ) {
+    alert("Ese nombre ya esta en uso");
+    return;
+  }
   await createTable(tableName);
 
   resetModal(tableModal);
@@ -469,12 +470,14 @@ async function openTaskModal(task = null, statusId = null) {
     deleteButton.style.display = "none";
     commentsSection.style.display = "none";
     commentsField.style.display = "none";
+    subtaskSection.style.display= "none";
     saveButton.textContent = "Crear Tarea";
     taskModal.showModal();
   } else {
     deleteButton.style.display = "flex";
     commentsSection.style.display = "block";
     commentsField.style.display = "block";
+    subtaskSection.style.display= "block";
     titleInput.value = task.title || "";
 
     priorityInput.value = task.priority || "Media";
@@ -489,7 +492,9 @@ async function openTaskModal(task = null, statusId = null) {
 
     // Cambiar texto
     saveButton.textContent = "Guardar Cambios";
+
     await loadComments(task.id);
+    await loadSubTasks(task.id);
   }
 
   taskModal.dataset.taskId = isEditing ? task.id : "";
@@ -568,11 +573,126 @@ deleteTaskButton.addEventListener("click", async () => {
   if (!confirmDelete) {
     return;
   }
-  await deleteCommentsByTask(taskId);
   await deleteTask(taskId);
   taskModal.close();
   resetModal(taskModal);
   await loadBoard();
+});
+
+async function loadSubTasks(taskId) {
+  const subTasksField = document.getElementById("subtasks-field");
+  const subTasksCount = document.getElementById("subtasks-count");
+
+  subTasksField.innerHTML = "";
+
+  const taskSubTasks = subTasks.filter(
+    (subTask) => String(subTask.taskId) === String(taskId),
+  );
+
+  subTasksCount.textContent = taskSubTasks.length;
+
+  taskSubTasks.forEach((subTask) => {
+    const subTaskElement = document.createElement("div");
+
+    subTaskElement.classList.add("subtask");
+
+    subTaskElement.innerHTML = `
+      <input
+        type="checkbox"
+        class="subtask-checkbox"
+        ${subTask.done ? "checked" : ""}
+      >
+
+      <input
+        type="text"
+        class="subtask-name"
+        value="${subTask.name}"
+      >
+
+      <button
+        type="button"
+        class="delete-subtask"
+      >
+        <span class="material-symbols-outlined">
+          delete
+        </span>
+      </button>
+    `;
+
+    const checkbox = subTaskElement.querySelector(".subtask-checkbox");
+
+    checkbox.addEventListener("change", async () => {
+      const updatedSubTask = await updateSubTask(subTask.id, {
+        done: checkbox.checked,
+      });
+
+      if (updatedSubTask) {
+        subTask.done = checkbox.checked;
+      }
+    });
+
+    const nameInput = subTaskElement.querySelector(".subtask-name");
+
+    nameInput.addEventListener("change", async () => {
+      const name = nameInput.value.trim();
+
+      if (!name) {
+        nameInput.value = subTask.name;
+        return;
+      }
+
+      const updatedSubTask = await updateSubTask(subTask.id, {
+        name: name,
+      });
+
+      if (updatedSubTask) {
+        subTask.name = name;
+      }
+    });
+
+    const deleteButton = subTaskElement.querySelector(".delete-subtask");
+
+    deleteButton.addEventListener("click", async (event) => {
+      event.stopPropagation();
+
+      await deleteSubTask(subTask.id);
+
+      subTasks = subTasks.filter(
+        (item) => String(item.id) !== String(subTask.id),
+      );
+
+      await loadSubTasks(taskId);
+    });
+
+    subTasksField.appendChild(subTaskElement);
+  });
+}
+addSubTaskButton.addEventListener("click", async () => {
+
+  const taskId = taskModal.dataset.taskId;
+
+  if (!taskId) {
+    return;
+  }
+
+  const nameInput = document.getElementById("new-subtask");
+
+  const name = nameInput.value.trim();
+
+  if (!name) {
+    return;
+  }
+
+  const newSubTask = await createSubTask(taskId, name);
+
+  if (newSubTask) {
+
+    subTasks.push(newSubTask);
+
+    nameInput.value = "";
+
+    await loadSubTasks(taskId);
+  }
 });
 // ==============================
 // INICIALIZAR
