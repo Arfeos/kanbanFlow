@@ -22,14 +22,13 @@
         <img src="src/img/logo.png" alt="Logo de KanbanFlow" />
         <h1>KanbanFlow</h1>
       </section>
-      <section>
+      <section class="headerButton">
         <button type="button" id="createTaskBtn" class="primary-button">
           <span class="material-symbols-outlined"> add </span> Nueva Tarea
         </button>
       </section>
     </header>
     <main>
-     
       <section class="filters">
         <div class="search-box">
           <span class="material-symbols-outlined">search</span>
@@ -56,6 +55,15 @@
           </button>
         </div>
       </section>
+      <div class="mobile-table-menu">
+        <button type="button" id="mobileMenuButton">
+          <span class="material-symbols-outlined">menu</span>
+          <span id="mobileTableName">Por hacer</span>
+          <span class="material-symbols-outlined">expand_more</span>
+        </button>
+
+        <div class="mobile-table-options" id="mobileTableOptions"></div>
+      </div>
       <section class="table-container">
         <section class="add-column"></section>
       </section>
@@ -101,9 +109,7 @@
               <div class="task-detail">
                 <label for="modal-status"> ESTADO </label>
 
-                <select id="modal-status">
-
-                </select>
+                <select id="modal-status"></select>
               </div>
 
               <!-- FECHA -->

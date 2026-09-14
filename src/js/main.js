@@ -17,7 +17,7 @@ import Sortable from "sortablejs";
 
 let tasks = [];
 let tables = [];
-
+let activeTableId = null;
 // MODALES
 const tableModal = document.getElementById("tableModal");
 const taskModal = document.getElementById("taskModal");
@@ -29,18 +29,71 @@ const createTaskBtn = document.getElementById("createTaskBtn");
 const saveButton = document.getElementById("saveData");
 const publishCommentButton = document.getElementById("publishComment");
 const deleteTaskButton = document.getElementById("deleteTask");
+const mobileMenuButton = document.getElementById("mobileMenuButton");
+const mobileTableName = document.getElementById("mobileTableName");
+const mobileTableOptions = document.getElementById("mobileTableOptions");
+
 async function loadBoard() {
   tables = await getAllTables();
-
   tasks = await getAllTask();
 
   renderTables(tables);
-
   renderTasks(tasks);
-
   initSortable();
+
+  setupMobileMenu();
+}
+function setupMobileMenu() {
+  if (!tables.length) return;
+
+if (
+  !activeTableId ||
+  !tables.some(
+    (table) => String(table.id) === String(activeTableId)
+  )
+) {
+  activeTableId = tables[0].id;
 }
 
+  mobileTableOptions.innerHTML = "";
+
+  tables.forEach((table) => {
+    const option = document.createElement("button");
+
+    option.type = "button";
+    option.textContent = table.name;
+
+    option.addEventListener("click", () => {
+      showMobileTable(table.id);
+      mobileTableOptions.classList.remove("open");
+    });
+
+    mobileTableOptions.appendChild(option);
+  });
+
+  showMobileTable(activeTableId);
+}
+function showMobileTable(tableId) {
+  activeTableId = String(tableId);
+
+  const selectedTable = tables.find(
+    (table) => String(table.id) === activeTableId
+  );
+
+  if (!selectedTable) return;
+
+  mobileTableName.textContent = selectedTable.name;
+
+  document.querySelectorAll(".table-container .table").forEach((table) => {
+    table.classList.toggle(
+      "mobile-active",
+      String(table.dataset.statusId) === activeTableId
+    );
+  });
+}
+mobileMenuButton.addEventListener("click", () => {
+  mobileTableOptions.classList.toggle("open");
+});
 function renderTables(tables) {
   const tableContainer = document.querySelector(".table-container");
 

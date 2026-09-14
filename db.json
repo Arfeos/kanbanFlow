@@ -5,14 +5,6 @@
       "id": "NUOSAqwBgI8"
     },
     {
-      "name": "En desarrollo",
-      "id": "95D3YbtxmiE"
-    },
-    {
-      "name": "Finalizado",
-      "id": "lLJd5F1jY08"
-    },
-    {
       "name": "prueba",
       "id": "vhqmNouD24M"
     },
@@ -44,7 +36,7 @@
       "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "priority": "Media",
       "dueDate": "2026-09-10",
-      "statusId": "lLJd5F1jY08"
+      "statusId": "yT-unpth-OQ"
     }
   ],
   "comments": [
