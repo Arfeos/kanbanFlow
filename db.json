@@ -29,39 +29,25 @@
       "dueDate": "2026-09-10",
       "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "id": "103"
-    },
-    {
-      "title": "dasdasd",
-      "priority": "Alta",
-      "statusId": "NUOSAqwBgI8",
-      "dueDate": "1231-03-12",
-      "description": "adadsasd",
-      "id": "gutN4KDPCgM"
     }
   ],
   "comments": [
     {
-      "taskId": "103",
+      "taskId": "102",
       "authorId": "10001",
-      "text": "sdaasdasd",
+      "text":  "Recuerda incluir los estados de hover en los botones del modal.",
       "createdAt": "2026-09-14T09:45:16.749Z",
       "id": "OCpIvBvTzRM"
-    }
-  ],
-  "SubTask": [
-    {
-      "taskId": "gutN4KDPCgM",
-      "name": "asdasdasdas",
-      "done": true,
-      "id": "NpQwYTm1dno"
     },
-    {
-      "taskId": "gutN4KDPCgM",
-      "name": "asdasdasd",
-      "done": false,
-      "id": "RNaymByaEZ0"
+        {
+      "taskId": "103",
+      "authorId": "10002",
+      "text":  "Iniciar la API simulada con las colecciones de tareas y comentarios.",
+      "createdAt": "2026-09-14T09:45:16.749Z",
+      "id": "XCdasdkasdC"
     }
   ],
+  "SubTask": [],
   "users": [
     {
       "id": "10001",
