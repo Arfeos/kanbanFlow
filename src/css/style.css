@@ -49,7 +49,7 @@
 ========================= */
 
 body {
-  background-color: #f8f9ff;
+  background-color: #f1f3f5;
 }
 
 /* =========================
@@ -57,7 +57,7 @@ body {
 ========================= */
 
 header {
-  background-color: #fefeff;
+  background-color: #ffffff;
 
   display: flex;
   justify-content: space-between;
@@ -105,11 +105,11 @@ header {
 
     padding: 0 12px;
 
-    background-color: #fefeff;
+    background-color: #ffffff;
 
     border-radius: 20px;
 
-    color: #64748b;
+    color: #1e293b;
 
     .material-symbols-outlined {
       margin-right: 8px;
@@ -126,10 +126,10 @@ header {
       background: transparent;
 
       font-size: 14px;
-      color: #334155;
+      color: #1e293b;
 
       &::placeholder {
-        color: #64748b;
+        color: #1e293b;
       }
     }
   }
@@ -143,7 +143,7 @@ header {
       margin-right: 2px;
 
       font-size: 13px;
-      color: #64748b;
+      color: #1e293b;
     }
 
     .priority {
@@ -160,7 +160,7 @@ header {
 
       background-color: #e5eeff;
 
-      color: #64748b;
+      color: #1e293b;
 
       font-size: 13px;
       font-weight: 500;
@@ -195,7 +195,7 @@ header {
 
       &.low {
         .dot {
-          background-color: #6366f1;
+          background-color: #4338ca;
         }
       }
 
@@ -220,18 +220,16 @@ header {
 
   overflow-x: auto;
 
-  .table,
-  .add-column {
 
-    background-color: #eff4ff;
-  }
-  .table {
+  .table,.add-column {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
-
+  background-color: #dfe5ec;
     min-width: 250px;
-
+    min-height: 107px;
+    max-width: 450px;
+    width: 100%;
     padding: 10px;
 
     border-radius: 14px;
@@ -273,7 +271,7 @@ header {
 
           background-color: #dbeafe;
 
-          color: #2563eb;
+          color: #1d4ed8;
 
           font-size: 11px;
           font-weight: 600;
@@ -293,7 +291,7 @@ header {
 
         background-color: transparent;
 
-        color: #64748b;
+        color: #1e293b;
 
         cursor: pointer;
 
@@ -324,7 +322,7 @@ header {
 
         padding: 12px;
 
-        background-color: #fefeff;
+        background-color: #ffffff;
 
         border-radius: 11px;
 
@@ -373,7 +371,7 @@ header {
 
           &.media {
             background-color: #dff3ff;
-            color: #087ea4;
+            color: #05617d;
 
             .dot {
               background-color: #38bdf8;
@@ -382,10 +380,10 @@ header {
 
           &.baja {
             background-color: #eef0ff;
-            color: #64748b;
+            color: #1e293b;
 
             .dot {
-              background-color: #94a3b8;
+              background-color: #526173;
             }
           }
         }
@@ -404,7 +402,7 @@ header {
 
           overflow: hidden;
 
-          color: #64748b;
+          color: #1e293b;
 
           font-size: 11px;
           line-height: 1.45;
@@ -421,7 +419,7 @@ header {
           margin-top: 2px;
 
           font-size: 10px;
-          color: #64748b;
+          color: #1e293b;
 
           .task-date,
           .task-comments {
@@ -442,7 +440,7 @@ header {
 
             background-color: #f1f5ff;
 
-            color: #334155;
+            color: #1e293b;
           }
         }
       }
@@ -463,7 +461,7 @@ header {
 
       background-color: transparent;
 
-      color: #334155;
+      color: #1e293b;
 
       font-size: 11px;
 
@@ -479,17 +477,9 @@ header {
     }
   }
   .add-column {
-    display: flex;
-    flex-direction: column;
+   justify-content: center;
     align-items: center;
-    justify-content: center;
-    min-width: 250px;
-    height: 128px;
-
-    padding: 12px;
-
-    border-radius: 14px;
-
+    padding: auto;
     .add-column-button {
       display: flex;
       align-items: center;
@@ -503,9 +493,9 @@ header {
       border: none;
       border-radius: 50%;
 
-      background-color: #fefeff;
+      background-color: #ffffff;
 
-      color: #475569;
+      color: #1e293b;
 
       cursor: pointer;
 
@@ -523,7 +513,7 @@ header {
       font-size: 11px;
       font-weight: 500;
 
-      color: #334155;
+      color: #1e293b;
     }
   }
 }
@@ -543,7 +533,7 @@ dialog {
   border: none;
   border-radius: 16px;
 
-  background-color: #fefeff;
+  background-color: #ffffff;
 
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
 
@@ -606,7 +596,7 @@ dialog {
   border: none;
   border-radius: 16px;
 
-  background-color: #fefeff;
+  background-color: #ffffff;
 
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
 
@@ -705,7 +695,7 @@ dialog {
 
         &.media {
           background-color: #dff3ff;
-          color: #087ea4;
+          color: #05617d;
 
           .dot {
             background-color: #38bdf8;
@@ -714,10 +704,10 @@ dialog {
 
         &.baja {
           background-color: #eef0ff;
-          color: #64748b;
+          color: #1e293b;
 
           .dot {
-            background-color: #94a3b8;
+            background-color: #526173;
           }
         }
       }
@@ -737,7 +727,7 @@ dialog {
 
         background-color: transparent;
 
-        color: #94a3b8;
+        color: #526173;
 
         cursor: pointer;
 
@@ -747,7 +737,7 @@ dialog {
 
         &:hover {
           background-color: #e2e8f0;
-          color: #475569;
+          color: #1e293b;
         }
       }
     }
@@ -770,7 +760,7 @@ dialog {
         margin-bottom: 18px;
 
         label {
-          color: #8a93a6;
+          color: #5f6b7a;
 
           font-size: 9px;
           font-weight: 700;
@@ -812,7 +802,7 @@ dialog {
 
         border-radius: 11px;
 
-        background-color: #eef3ff;
+        background-color: #dce3eb;
 
         .task-detail {
           display: flex;
@@ -823,7 +813,7 @@ dialog {
           min-width: 0;
 
           label {
-            color: #8a93a6;
+            color: #5f6b7a;
 
             font-size: 9px;
             font-weight: 600;
@@ -839,9 +829,9 @@ dialog {
             border: none;
             border-radius: 7px;
 
-            background-color: #fefeff;
+            background-color: #ffffff;
 
-            color: #475569;
+            color: #1e293b;
 
             font-family: Inter;
 
@@ -862,7 +852,7 @@ dialog {
         gap: 7px;
 
         label {
-          color: #8a93a6;
+          color: #5f6b7a;
 
           font-size: 9px;
           font-weight: 700;
@@ -881,7 +871,7 @@ dialog {
 
           background-color: #e4edff;
 
-          color: #40516d;
+          color: #1e293b;
 
           font-family: Inter;
 
@@ -917,7 +907,7 @@ dialog {
             gap: 6px;
 
             .material-symbols-outlined {
-              color: #2599c7;
+              color: #05617d;
 
               font-size: 18px;
             }
@@ -943,7 +933,7 @@ dialog {
 
               background-color: #e5e9f4;
 
-              color: #64748b;
+              color: #1e293b;
 
               font-size: 9px;
               font-weight: 700;
@@ -988,7 +978,7 @@ dialog {
 
             background-color: #e4edff;
 
-            color: #475569;
+            color: #1e293b;
 
             font-family: Inter;
 
@@ -1098,7 +1088,7 @@ dialog {
           }
 
           .comment-header span {
-            color: #8b95a7;
+            color: #5f6b7a;
 
             font-size: 11px;
             font-weight: 500;
@@ -1107,7 +1097,7 @@ dialog {
           .comment-content p {
             margin: 0;
 
-            color: #4b5563;
+            color: #374151;
 
             font-size: 13px;
             line-height: 1.5;
@@ -1157,17 +1147,13 @@ dialog {
     display: none;
   }
 
-  .table.mobile-active {
+    .add-column ,
+  .table.mobile-active   {
     display: flex;
-    width: 100%;
+    max-width: none;
   }
 
-    .add-column {
-      display: flex;
-      width: 100%;
-      min-width: 0;
-      margin-top: 8px;
-    }
+
 
 }
   .filters {
@@ -1235,9 +1221,9 @@ dialog {
   border: none;
   border-radius: 10px;
 
-  background-color: #eff4ff;
+  background-color: #dfe5ec;
 
-  color: #334155;
+  color: #1e293b;
 
   font-family: Inter;
   font-size: 12px;
@@ -1271,7 +1257,7 @@ dialog {
 
   border-radius: 10px;
 
-  background-color: #fefeff;
+  background-color: #ffffff;
 
   box-shadow: 0 5px 20px rgba(15, 23, 42, 0.15);
 }
@@ -1290,7 +1276,7 @@ dialog {
 
   background-color: transparent;
 
-  color: #475569;
+  color: #1e293b;
 
   font-family: Inter;
   font-size: 11px;
@@ -1301,7 +1287,7 @@ dialog {
 }
 
 .mobile-table-options button:hover {
-  background-color: #eef3ff;
+  background-color: #dce3eb;
   color: #4f46d9;
 }
 }

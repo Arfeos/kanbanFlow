@@ -18,6 +18,8 @@ import Sortable from "sortablejs";
 let tasks = [];
 let tables = [];
 let activeTableId = null;
+let searchText = "";
+let selectedPriority = "Todas";
 // MODALES
 const tableModal = document.getElementById("tableModal");
 const taskModal = document.getElementById("taskModal");
@@ -32,6 +34,7 @@ const deleteTaskButton = document.getElementById("deleteTask");
 const mobileMenuButton = document.getElementById("mobileMenuButton");
 const mobileTableName = document.getElementById("mobileTableName");
 const mobileTableOptions = document.getElementById("mobileTableOptions");
+const priorityButtons = document.querySelectorAll(".priority");
 
 async function loadBoard() {
   tables = await getAllTables();
@@ -46,14 +49,12 @@ async function loadBoard() {
 function setupMobileMenu() {
   if (!tables.length) return;
 
-if (
-  !activeTableId ||
-  !tables.some(
-    (table) => String(table.id) === String(activeTableId)
-  )
-) {
-  activeTableId = tables[0].id;
-}
+  if (
+    !activeTableId ||
+    !tables.some((table) => String(table.id) === String(activeTableId))
+  ) {
+    activeTableId = tables[0].id;
+  }
 
   mobileTableOptions.innerHTML = "";
 
@@ -77,7 +78,7 @@ function showMobileTable(tableId) {
   activeTableId = String(tableId);
 
   const selectedTable = tables.find(
-    (table) => String(table.id) === activeTableId
+    (table) => String(table.id) === activeTableId,
   );
 
   if (!selectedTable) return;
@@ -87,7 +88,7 @@ function showMobileTable(tableId) {
   document.querySelectorAll(".table-container .table").forEach((table) => {
     table.classList.toggle(
       "mobile-active",
-      String(table.dataset.statusId) === activeTableId
+      String(table.dataset.statusId) === activeTableId,
     );
   });
 }
@@ -159,40 +160,39 @@ function renderTables(tables) {
     addTaskButton.addEventListener("click", () => {
       openTaskModal(null, table.id);
     });
-    const deleteTableButton =
-  tableElement.querySelector(".delete-table-button");
-  deleteTableButton.addEventListener("click", async () => {
+    const deleteTableButton = tableElement.querySelector(
+      ".delete-table-button",
+    );
+    deleteTableButton.addEventListener("click", async () => {
+      const confirmDelete = confirm(
+        `¿Seguro que quieres eliminar la tabla "${table.name}"?`,
+      );
 
-  const confirmDelete = confirm(
-    `¿Seguro que quieres eliminar la tabla "${table.name}"?`
-  );
+      if (!confirmDelete) {
+        return;
+      }
 
-  if (!confirmDelete) {
-    return;
-  }
+      // Obtener todas las tareas
+      const allTasks = await getAllTask();
 
-  // Obtener todas las tareas
-  const allTasks = await getAllTask();
+      // Obtener todas las tareas pertenecientes a esta tabla
+      const tableTasks = allTasks.filter(
+        (task) => String(task.statusId) === String(table.id),
+      );
 
-  // Obtener todas las tareas pertenecientes a esta tabla
-  const tableTasks = allTasks.filter(
-    (task) => String(task.statusId) === String(table.id)
-  );
+      // Eliminar cada tarea y sus comentarios
+      for (const task of tableTasks) {
+        await deleteCommentsByTask(task.id);
 
-  // Eliminar cada tarea y sus comentarios
-  for (const task of tableTasks) {
+        await deleteTask(task.id);
+      }
 
-    await deleteCommentsByTask(task.id);
+      // Finalmente eliminar la tabla
+      await deleteTable(table.id);
 
-    await deleteTask(task.id);
-  }
-
-  // Finalmente eliminar la tabla
-  await deleteTable(table.id);
-
-  // Recargar tablero
-  await loadBoard();
-});
+      // Recargar tablero
+      await loadBoard();
+    });
   });
 
   const addColumn = document.createElement("section");
@@ -286,6 +286,39 @@ function renderTasks(tasks) {
 
   updateTaskCounters();
 }
+function filterTasks(){
+  const filteredTasks = tasks.filter((task)=>{
+    const matchesSearch = task.title.toLowerCase().includes(searchText.toLowerCase());
+    const matchesPriority = selectedPriority === "Todas" || task.priority === selectedPriority;
+    return matchesSearch && matchesPriority;
+  })
+   document.querySelectorAll(".task-list").forEach((taskList) => {
+    taskList.innerHTML = "";
+  });
+
+  renderTasks(filteredTasks);
+    initSortable();
+}
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("input", () => {
+  searchText = searchInput.value.trim();
+  filterTasks();
+});
+
+priorityButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    priorityButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    selectedPriority = button.textContent.trim();
+
+    filterTasks();
+  });
+});
 
 function updateTaskCounters() {
   const tables = document.querySelectorAll(".table");
@@ -300,6 +333,9 @@ function updateTaskCounters() {
 }
 
 function initSortable() {
+  if (window.innerWidth <= 600) {
+    return;
+  }
   const taskLists = document.querySelectorAll(".task-list");
 
   taskLists.forEach((taskList) => {
@@ -520,7 +556,7 @@ publishCommentButton.addEventListener("click", async () => {
 });
 deleteTaskButton.addEventListener("click", async () => {
   const taskId = taskModal.dataset.taskId;
-  console.log(taskId)
+  console.log(taskId);
   if (!taskId) {
     return;
   }
@@ -601,11 +637,10 @@ function formatDateToComment(date) {
     minute: "2-digit",
   });
 }
-function formatDateToTask(date){
-    return new Date(date).toLocaleString("es-ES", {
+function formatDateToTask(date) {
+  return new Date(date).toLocaleString("es-ES", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   });
 }
-
