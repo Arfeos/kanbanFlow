@@ -218,7 +218,7 @@ function renderTasks(tasks) {
             calendar_today
           </span>
 
-          ${task.dueDate}
+          ${formatDateToTask(task.dueDate)}
 
         </div>
 
@@ -526,7 +526,7 @@ async function loadComments(taskId) {
           <strong>${user ? user.name : "Usuario desconocido"}</strong>
 
           <span>
-            ${formatDate(comment.createdAt)}
+            ${formatDateToComment(comment.createdAt)}
           </span>
         </div>
 
@@ -539,7 +539,7 @@ async function loadComments(taskId) {
     commentsField.appendChild(commentElement);
   });
 }
-function formatDate(date) {
+function formatDateToComment(date) {
   return new Date(date).toLocaleString("es-ES", {
     day: "2-digit",
     month: "2-digit",
@@ -548,3 +548,11 @@ function formatDate(date) {
     minute: "2-digit",
   });
 }
+function formatDateToTask(date){
+    return new Date(date).toLocaleString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
