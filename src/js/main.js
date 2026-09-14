@@ -391,9 +391,13 @@ createTableButton.addEventListener("click", async () => {
   const tableName = tableNameInput.value.trim();
 
   if (!tableName) {
+    alert("debes asignarle un nombre");
     return;
   }
-
+if(tables.find((table)=>tableName.toLowerCase()===table.name.toLowerCase())){
+  alert("Ese nombre ya esta en uso");
+  return
+}
   await createTable(tableName);
 
   resetModal(tableModal);

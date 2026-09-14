@@ -5,54 +5,47 @@
       "id": "NUOSAqwBgI8"
     },
     {
-      "name": "prueba",
+      "name": "terminada",
       "id": "vhqmNouD24M"
     },
     {
-      "name": "asdasd",
-      "id": "yT-unpth-OQ"
+      "name": "En proceso",
+      "id": "f5q2ti3KLY8"
     }
   ],
   "tasks": [
     {
-      "id": "101",
-      "title": "Diseñar maqueta en Figma",
-      "description": "Crear los wireframes y prototipos interactivos del tablero.",
-      "priority": "Alta",
-      "dueDate": "2026-09-15",
-      "statusId": "yT-unpth-OQ"
-    },
-    {
       "title": "Configurar json-server",
       "priority": "Media",
-      "statusId": "NUOSAqwBgI8",
+      "statusId": "vhqmNouD24M",
       "dueDate": "2026-09-10",
       "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "id": "102"
     },
     {
-      "id": "103",
       "title": "Configurar .env",
-      "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
       "priority": "Media",
+      "statusId": "vhqmNouD24M",
       "dueDate": "2026-09-10",
-      "statusId": "yT-unpth-OQ"
+      "description": "Iniciar la API simulada con las colecciones de tareas y comentarios.",
+      "id": "103"
+    },
+    {
+      "id": "ignTFbLd41E",
+      "title": "preuba de creacion",
+      "priority": "Alta",
+      "statusId": "NUOSAqwBgI8",
+      "dueDate": "2027-12-12",
+      "description": ""
     }
   ],
   "comments": [
     {
-      "id": "1001",
-      "taskId": "101",
+      "taskId": "103",
       "authorId": "10001",
-      "text": "Recuerda incluir los estados de hover en los botones del modal.",
-      "createdAt": "2026-09-06T10:30:00Z"
-    },
-    {
-      "id": "1002",
-      "taskId": "101",
-      "authorId": "10002",
-      "text": "Ya subí la paleta de colores al canal de Figma.",
-      "createdAt": "2026-09-06T11:15:00Z"
+      "text": "sdaasdasd",
+      "createdAt": "2026-09-14T09:45:16.749Z",
+      "id": "OCpIvBvTzRM"
     }
   ],
   "users": [
